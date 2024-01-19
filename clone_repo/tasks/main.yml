@@ -1,0 +1,16 @@
+---
+# tasks file for clone_repo
+- name: install git package
+  yum: name=git state=latest
+- name: Disable SSL
+  shell:
+    "git config --global http.sslVerify false"
+- name: Clone a github repository
+  become_user: "rocky"
+  become: true
+  git:
+    repo: git@github.com:EisukeSenaha/sutohara.git
+    dest: /home/rocky/sutohara/
+    accept_hostkey: true
+    clone: yes
+    update: yes

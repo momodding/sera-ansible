@@ -1,0 +1,17 @@
+---
+# tasks file for prepare
+- name: install nginx package
+  yum: name=nginx state=latest
+
+- name: install firewalld package
+  yum: name=firewalld state=latest
+
+- name: Create Python virtual environment
+  command:
+    cmd: python3 -m venv /home/rocky/sutohara/venv
+    creates: "/home/rocky/sutohara/venv"
+
+- name: Install specified python requirements in indicated (virtualenv)
+  ansible.builtin.pip:
+    requirements: /home/rocky/sutohara/requirements.txt
+    virtualenv: /home/rocky/sutohara/venv

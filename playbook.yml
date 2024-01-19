@@ -1,0 +1,7 @@
+---
+- hosts: rocky_pi
+  remote_user: rocky
+  become: true
+  become_user: root
+  roles:
+    - script
