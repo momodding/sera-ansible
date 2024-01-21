@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+source /home/rocky/sutohara/venv/bin/activate
+
+python /home/rocky/sutohara/manage.py migrate --settings=app.settings.production --noinput
+python /home/rocky/sutohara/manage.py collectstatic --settings=app.settings.production --noinput --clear
+
+DJANGO_SETTINGS_MODULE=app.settings.production gunicorn --config /home/rocky/sutohara/gunicorn-conf.py app.wsgi --daemon --reload

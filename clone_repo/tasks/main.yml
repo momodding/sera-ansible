@@ -14,3 +14,4 @@
     accept_hostkey: true
     clone: yes
     update: yes
+    force: yes

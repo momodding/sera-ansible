@@ -11,9 +11,17 @@
     cmd: python3 -m venv /home/rocky/sutohara/venv
     creates: "/home/rocky/sutohara/venv"
 
+- name: copy shell of project
+  template: "src=prepare/templates/start_shell.j2 dest=/home/rocky/sutohara/start.sh"
+
 - name: Install specified python requirements in indicated (virtualenv)
   ansible.builtin.pip:
     requirements: /home/rocky/sutohara/requirements.txt
+    virtualenv: /home/rocky/sutohara/venv
+
+- name: Install gunicorn into the specified (virtualenv), inheriting none of the globally installed modules
+  ansible.builtin.pip:
+    name: gunicorn==20.0.4
     virtualenv: /home/rocky/sutohara/venv
 
 - name: copy nginx config of project

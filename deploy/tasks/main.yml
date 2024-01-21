@@ -1,2 +1,7 @@
 ---
 # tasks file for deploy
+- name: Changing perm of "start.sh", adding "+x"
+  file: dest=/home/rocky/sutohara/start.sh mode=a+x
+- name: Execute the script
+  command: sh /home/rocky/sutohara/start.sh
+
