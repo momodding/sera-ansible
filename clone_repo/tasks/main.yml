@@ -18,3 +18,6 @@
     update: yes
     force: yes
     version: '{{branch | default("main")}}'
+
+- name: Changing permission of "manage.py", adding "+x"
+  file: dest={{project_path}}/manage.py mode=a+x

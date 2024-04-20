@@ -39,6 +39,3 @@
   become_user: root
   vars:
     dir_name: '{{project_name}}'
-
-- name: Changing permission of "manage.py", adding "+x"
-  file: dest={{project_path}}/manage.py mode=a+x
