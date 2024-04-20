@@ -16,7 +16,7 @@
     creates: "{{project_path}}/venv"
 
 - name: Copy .env files
-  template: "src=prepare/templates/env_files.j2 dest={{project_path}}/.env"
+  template: "src=prepare/templates/env_file.j2 dest={{project_path}}/.env"
 
 - name: copy shell of project
   template: "src=prepare/templates/start_shell.j2 dest={{project_path}}/start.sh"
