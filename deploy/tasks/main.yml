@@ -6,3 +6,5 @@
 - name: Execute the script
   command: sh {{project_path}}/start.sh
 
+- name: start nginx
+  service: "name=nginx state=started"

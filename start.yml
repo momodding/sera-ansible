@@ -1,5 +1,5 @@
 ---
 - hosts: staging
   roles:
-    - { role: migrate, project_name: 'project', project_path: '/home/sera/project', settings_app_name: 'config.setting.local' }
+    - { role: migration, project_name: 'project', project_path: '/home/sera/project', settings_app_name: 'config.settings.local' }
     - { role: deploy, project_name: 'project', project_path: '/home/sera/project' }

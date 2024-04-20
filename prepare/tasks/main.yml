@@ -40,5 +40,5 @@
   vars:
     dir_name: '{{project_name}}'
 
-- name: start nginx
-  service: "name=nginx state=started"
+- name: Changing permission of "manage.py", adding "+x"
+  file: dest={{project_path}}/manage.py mode=a+x
