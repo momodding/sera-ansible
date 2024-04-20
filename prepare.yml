@@ -1,8 +1,5 @@
 ---
-- hosts: rocky_pi
-  remote_user: rocky
-  become: true
-  become_user: root
+- hosts: staging
   roles:
-    - clone_repo
-    - prepare
+    - { role: clone_repo, project_name: 'project', project_path: '/home/sera/project', repository: 'git@github.com:EisukeSenaha/Bakery-order-system.git', branch: 'development' }
+    - { role: prepare, project_name: 'project', project_path: '/home/sera/project' }
