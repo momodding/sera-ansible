@@ -1,31 +1,41 @@
 ---
 # tasks file for prepare
 - name: install nginx package
-  yum: name=nginx state=latest
+  yum: name=nginx state=present
+  become: true
+  become_user: root
 
 - name: install firewalld package
   yum: name=firewalld state=latest
+  become: true
+  become_user: root
 
 - name: Create Python virtual environment
   command:
-    cmd: python3 -m venv /home/rocky/sutohara/venv
-    creates: "/home/rocky/sutohara/venv"
+    cmd: python3 -m venv {{project_path}}/venv
+    creates: "{{project_path}}/venv"
+
+- name: Copy .env files
+  template: "src=prepare/templates/env_file.j2 dest={{project_path}}/.env"
 
 - name: copy shell of project
-  template: "src=prepare/templates/start_shell.j2 dest=/home/rocky/sutohara/start.sh"
+  template: "src=prepare/templates/start_shell.j2 dest={{project_path}}/start.sh"
+  vars:
+    dir_name: '{{project_name}}'
 
 - name: Install specified python requirements in indicated (virtualenv)
   ansible.builtin.pip:
-    requirements: /home/rocky/sutohara/requirements.txt
-    virtualenv: /home/rocky/sutohara/venv
+    requirements: '{{project_path}}/requirements.txt'
+    virtualenv: '{{project_path}}/venv'
 
 - name: Install gunicorn into the specified (virtualenv), inheriting none of the globally installed modules
   ansible.builtin.pip:
     name: gunicorn==20.0.4
-    virtualenv: /home/rocky/sutohara/venv
+    virtualenv: '{{project_path}}/venv'
 
 - name: copy nginx config of project
-  template: "src=prepare/templates/nginx.j2 dest=/etc/nginx/conf.d/sutohara.conf"
-
-- name: start nginx
-  service: "name=nginx state=started"
+  template: "src=prepare/templates/nginx.j2 dest=/etc/nginx/conf.d/{{project_name}}.conf"
+  become: true
+  become_user: root
+  vars:
+    dir_name: '{{project_name}}'

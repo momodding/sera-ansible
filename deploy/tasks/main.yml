@@ -1,7 +1,10 @@
 ---
 # tasks file for deploy
 - name: Changing perm of "start.sh", adding "+x"
-  file: dest=/home/rocky/sutohara/start.sh mode=a+x
-- name: Execute the script
-  command: sh /home/rocky/sutohara/start.sh
+  file: dest={{project_path}}/start.sh mode=a+x
 
+- name: Execute the script
+  command: sh {{project_path}}/start.sh
+
+- name: start nginx
+  service: "name=nginx state=started"

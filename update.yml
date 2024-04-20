@@ -2,4 +2,4 @@
 - hosts: staging
   roles:
     - { role: clone_repo, project_name: 'project', project_path: '/home/sera/project', repository: 'git@github.com:EisukeSenaha/Bakery-order-system.git', branch: 'development' }
-    - { role: prepare, project_name: 'project', project_path: '/home/sera/project' }
+    - { role: migration, project_name: 'project', project_path: '/home/sera/project', settings_app_name: 'config.settings.local' }

@@ -1,9 +1,30 @@
 #!/bin/bash
-set -e
 
-source /home/rocky/sutohara/venv/bin/activate
+echo "check logging directory..."
+if [ ! -d /var/log/{{dir_name}} ]; then
+  sudo mkdir -p /var/log/{{dir_name}}
+  sudo touch /var/log/{{dir_name}}/gunicorn-access.log
+  sudo touch /var/log/{{dir_name}}/gunicorn-error.log
+fi
 
-python /home/rocky/sutohara/manage.py migrate --settings=app.settings.production --noinput
-python /home/rocky/sutohara/manage.py collectstatic --settings=app.settings.production --noinput --clear
+echo "check virtualenv directory..."
+if [ ! -d ~/{{dir_name}}/venv ]; then
+  ~/{{dir_name}}/venv/bin/python manage.py migrate --settings=config.settings.prod
+  sudo ~/{{dir_name}}/venv/bin/python manage.py collectstatic --settings=config.settings.prod --noinput
+fi
 
-DJANGO_SETTINGS_MODULE=app.settings.production gunicorn --config /home/rocky/sutohara/gunicorn-conf.py app.wsgi --daemon --reload
+echo "check gunicorn process..."
+if pgrep -x "gunicorn" > /dev/null
+then
+  echo "restart gunicorn..."
+  sudo pkill gunicorn
+	DJANGO_SETTINGS_MODULE=config.settings.prod ~/{{dir_name}}/venv/bin/gunicorn --config gunicorn_cfg.py config.wsgi --daemon --reload
+  echo "restart gunicorn finish..."
+else
+  echo "start gunicorn..."
+  DJANGO_SETTINGS_MODULE=config.settings.prod ~/{{dir_name}}/venv/bin/gunicorn --config gunicorn_cfg.py config.wsgi --daemon --reload
+  echo "start gunicorn finish..."
+fi
+
+
+echo "deployment finish..."
