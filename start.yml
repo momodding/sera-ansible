@@ -1,7 +1,5 @@
 ---
-- hosts: rocky_pi
-  remote_user: rocky
-  become: true
-  become_user: root
+- hosts: staging
   roles:
-    - deploy
+    - { role: migrate, project_name: 'project', project_path: '/home/sera/project', settings_app_name: 'config.setting.local' }
+    - { role: deploy, project_name: 'project', project_path: '/home/sera/project' }

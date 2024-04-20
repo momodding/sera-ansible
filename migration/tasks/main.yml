@@ -1,0 +1,16 @@
+---
+# tasks file for migration
+- name: Run Migration
+  community.general.django_manage:
+    command: migrate
+    project_path: "{{ project_path }}"
+    settings: "{{ settings_app_name }}"
+    pythonpath: "{{ settings_dir }}"
+    virtualenv: "{{ virtualenv_dir }}"
+
+- name: Run collectstatic
+  community.general.django_manage:
+    command: collectstatic
+    project_path: "{{ project_path }}"
+    settings: "{{ settings_app_name }}"
+    virtualenv: "{{ project_path }}/venv"
