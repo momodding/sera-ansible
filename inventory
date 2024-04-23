@@ -1,1 +1,1 @@
-staging ansible_host=153.127.51.205 ansible_user=sera
+staging ansible_host=153.127.51.205 ansible_connection=ssh ansible_user=sera
